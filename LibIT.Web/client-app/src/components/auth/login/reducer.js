@@ -1,0 +1,58 @@
+import * as types from './types';
+import isEmpty from 'lodash/isEmpty'
+
+const intialState = {
+    user: {
+        id: '',
+        name: '',
+        roles: []
+    },
+    isAuthenticated: false,
+    loading: false,
+    errors: {}
+}
+
+export const loginReducer = (state = intialState, action) => {
+    console.log("Reducer working", action);
+    switch (action.type) {
+        case types.LOGIN_STARTED:
+            return {
+                ...state,
+                loading: true,
+                    errors: {}
+            }
+            break;
+
+        case types.LOGIN_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                    errors: {}
+            }
+            break;
+
+        case types.LOGIN_FAILED:
+            return {
+                loading: false,
+                    errors: action.errors
+            }
+            break;
+        case types.LOGIN_SET_CURRENT_USER:
+            return {
+                ...state,
+                user: action.user,
+                    isAuthenticated: !isEmpty(action.user)
+            }
+            break;
+
+            case types.LOGOFF_SET_CURRENT_USER:
+            return {
+                ...state,
+                    isAuthenticated:false
+            }
+            break;
+        default:
+            break;
+    }
+    return state;
+}
