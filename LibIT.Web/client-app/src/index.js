@@ -15,12 +15,12 @@ import * as loginAction from './components/auth/login/actions'
 const initialState = window.initialReduxState;
 const store = configureStore(history, initialState);
 
-// if(localStorage.authToken){
-//   let data={
-//     token:localStorage.authToken
-//   }
-//   loginAction.LoginByJWT(data,store.dispatch)
-// }
+if(localStorage.authToken){
+  let data={
+    token:localStorage.authToken
+  }
+  loginAction.LoginByJWT(data,store.dispatch)
+}
 
 // <React.StrictMode>
 // </React.StrictMode>

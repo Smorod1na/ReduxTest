@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux'
-import LogOff from '../auth/login/actions'
+import {LogOff} from '../auth/login/actions'
 class Navbar extends Component {
 
+    onSubmitForm = (e) => {
+        e.preventDefault();
+     this.props.LogOff()     
+    }
+    
     render() {
         console.log("navbar-props",this.props)
         const name=this.props.user.name
@@ -43,12 +48,13 @@ class Navbar extends Component {
                         <li className="nav-item">
                        
                             <Link className="nav-link disabled" to="/">{name}</Link>
+                                <form onSubmit={this.onSubmitForm}>
                             <div>
                                 <button  
-                                onClick={()=>
-         LogOff()}
+                               
                                 className="btn btn-outline-success my-2 my-sm-0" type="submit">Log Of</button>
                                 </div>    
+                                </form>
                         </li>
                         ):(
                         <li>
@@ -77,4 +83,4 @@ const mapState=(stateRedux)=>{
 
 
 
-export default connect(mapState,LogOff)(Navbar);
+export default connect(mapState,{LogOff})(Navbar);

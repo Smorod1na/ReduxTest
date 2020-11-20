@@ -1,6 +1,8 @@
 import * as types from './types';
 import LoginService from './service';
-import { push } from 'connected-react-router';
+import {
+    push
+} from 'connected-react-router';
 import setAuthorisationToken from '../../../Utils/setAuthorisationToken'
 import jwt from 'jsonwebtoken'
 
@@ -16,7 +18,7 @@ export const loginUser = (model) => {
                     type: types.LOGIN_SUCCESS
                 });
                 LoginByJWT(response.data, dispatch)
-                
+
                 dispatch(push('/'));
 
             }, err => {
@@ -38,19 +40,25 @@ export const LoginByJWT = (tokens, dispatch) => {
         token
     } = tokens;
     let user = jwt.decode(token)
-    if(!Array.isArray(user.roles))
-    {
-        user.roles=Array.of(user.roles)
+    if (!Array.isArray(user.roles)) {
+        user.roles = Array.of(user.roles)
     }
-    localStorage.setItem('authToken',token)
+    localStorage.setItem('authToken', token)
     setAuthorisationToken(token)
     dispatch({
-        type:types.LOGIN_SET_CURRENT_USER,
+        type: types.LOGIN_SET_CURRENT_USER,
         user
     })
-    console.log("User login_______",token)
+    console.log("User login_______", token)
 }
 
-export default function LogOff(){
-    setAuthorisationToken()
+export const LogOff = () => {
+    console.log("Log off work")
+    localStorage.removeItem('authToken')
+    setAuthorisationToken(null);
+    return (dispatch) => {
+        dispatch({
+            type: types.LOGOFF_SET_CURRENT_USER,
+        });
+    }   
 }
